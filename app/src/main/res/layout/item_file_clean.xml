@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_show_file"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:layout_marginBottom="12dp"
+    android:padding="16dp">
+
+    <ImageView
+        android:id="@+id/iv_file_icon"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/wj_file" />
+
+    <LinearLayout
+        android:id="@+id/layout_file_info"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_file_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="myvoice.mp3"
+            android:textColor="#FF151611"
+            android:textSize="14sp"/>
+
+        <!-- 文件大小 -->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tv_file_size"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0 kb"
+            android:textColor="#FF727C91"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+    <!-- 选中状态图标 -->
+    <ImageView
+        android:id="@+id/iv_select_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dischooe"
+        android:button="@null" />
+
+</LinearLayout>

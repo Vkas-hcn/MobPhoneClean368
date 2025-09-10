@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/file"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#E9EEF4">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:paddingVertical="19dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="20dp"
+                android:layout_height="1dp" />
+
+            <ImageView
+                android:id="@+id/img_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/tui_hei" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/text_back"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="Large File Clean"
+                android:textColor="#FF151611"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/filter_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingVertical="11dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_type"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shai_bg"
+                android:drawableEnd="@drawable/cos"
+                android:drawablePadding="6dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:paddingHorizontal="25dp"
+                android:paddingVertical="7dp"
+                android:text="All types"
+                android:textColor="#FFA3A3A3"
+                android:textSize="12sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_size"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="40dp"
+                android:background="@drawable/shai_bg"
+                android:drawableEnd="@drawable/cos"
+                android:drawablePadding="6dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="7dp"
+                android:text="All Size"
+                android:textColor="#FFA3A3A3"
+                android:textSize="12sp" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_time"
+                android:layout_width="96dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shai_bg"
+                android:drawableEnd="@drawable/cos"
+                android:drawablePadding="6dp"
+                android:gravity="center"
+                android:padding="8dp"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="7dp"
+                android:text="All Time"
+                android:textColor="#FFA3A3A3"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            tools:listitem="@layout/item_file_clean" >
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_files"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"/>
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:drawablePadding="16dp"
+                android:visibility="gone"
+                android:layout_gravity="center"
+                android:drawableTop="@drawable/kong"
+                android:text="No file yet."
+                android:textColor="#FF577098"
+                android:textSize="12sp"/>
+        </FrameLayout>
+
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/btn_delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="38dp"
+            android:gravity="center"
+            android:background="@drawable/bg_clean_but"
+            android:enabled="false"
+            android:paddingVertical="11dp"
+            android:text="Delete"
+            android:textColor="#FFFFFFFF"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</FrameLayout>
