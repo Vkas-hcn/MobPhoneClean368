@@ -64,7 +64,7 @@ class CleanCompleteActivity : AppCompatActivity() {
 
         }
         binding.llPic.setOnClickListener {
-            startActivity(Intent(this, CleanPictureActivity::class.java))
+            startActivity(Intent(this, CleanPictureComposeActivity::class.java))
             finish()
         }
         binding.llFile.setOnClickListener {

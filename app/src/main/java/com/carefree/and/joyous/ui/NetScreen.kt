@@ -33,7 +33,7 @@ fun NetScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 12.dp)
         ) {
             IconButton(
                 onClick = onBackClick,

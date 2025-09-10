@@ -34,7 +34,7 @@ class ScanLoadActivity : ComponentActivity() {
                 onBackClick = { finish() },
                 onScanComplete = {
                     when (MainActivity.jumpType) {
-                        0 -> startActivity(Intent(this, CleanPictureActivity::class.java))
+                        0 -> startActivity(Intent(this, CleanPictureComposeActivity::class.java))
                         1 -> startActivity(Intent(this, CleanFileActivity::class.java))
                         else -> startActivity(Intent(this, CleanTrashActivity::class.java))
                     }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -97,6 +98,7 @@ fun MainScreen(
 
             // 圆形进度指示器容器
             Box(
+                contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .constrainAs(circleContainer) {
                         start.linkTo(parent.start)
@@ -109,7 +111,7 @@ fun MainScreen(
                     painter = painterResource(id = R.drawable.bg_yuan),
                     contentDescription = null,
                     contentScale = ContentScale.FillBounds,
-                    modifier = Modifier.size(200.dp)
+                    modifier = Modifier.size(228.dp)
                 )
 
                 // 圆形进度指示器
@@ -122,7 +124,7 @@ fun MainScreen(
                         modifier = Modifier.size(172.dp),
                         strokeWidth = 8.dp,
                         color = Color(0xFF3CBBFC),
-                        trackColor = Color(0xFFD5E3E9)
+                        trackColor = Color(0xFFEFF8FF)
                     )
 
                     // 中心内容
@@ -159,6 +161,7 @@ fun MainScreen(
                 Image(
                     painter = painterResource(id = R.drawable.mian_but),
                     contentDescription = null,
+                    contentScale = ContentScale.Crop,
                     modifier = Modifier
                         .width(204.dp)
                         .height(56.dp)
