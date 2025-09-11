@@ -67,11 +67,13 @@ fun CleanCompleteScreen(
             deletedSize = deletedSize,
             onBackClick = onBackClick,
             onPictureCleanClick = {
-                context.startActivity(Intent(context, CleanPictureComposeActivity::class.java))
+                MainActivity.jumpType = 0
+                context.startActivity(Intent(context, ScanLoadActivity::class.java))
                 (context as? ComponentActivity)?.finish()
             },
             onFileCleanClick = {
-                context.startActivity(Intent(context, CleanFileActivity::class.java))
+                MainActivity.jumpType = 1
+                context.startActivity(Intent(context, ScanLoadActivity::class.java))
                 (context as? ComponentActivity)?.finish()
             },
             onTrashCleanClick = {

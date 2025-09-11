@@ -183,7 +183,8 @@ class MainActivity : ComponentActivity() {
             if (hasStoragePermission()) {
                 startScanActivity()
             } else {
-                handlePermissionDenied()
+                // 用户拒绝权限时，只关闭对话框而不是跳转到应用设置页
+                showPermissionDialog.value = false
             }
         }
     }
@@ -201,17 +202,8 @@ class MainActivity : ComponentActivity() {
             if (allGranted) {
                 startScanActivity()
             } else {
-                val shouldShowRationale = permissions.any { permission ->
-                    ActivityCompat.shouldShowRequestPermissionRationale(this, permission)
-                }
-
-                if (!shouldShowRationale) {
-                    // 用户选择了"不再询问"，直接跳转到设置
-                    openAppSettings()
-                } else {
-                    // 用户拒绝但没有选择"不再询问"
-                    handlePermissionDenied()
-                }
+                // 用户拒绝权限时，只关闭对话框而不是跳转到应用设置页
+                showPermissionDialog.value = false
             }
         }
     }
