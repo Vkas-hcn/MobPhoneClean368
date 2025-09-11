@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.carefree.and.joyous.databinding.ItemFileCleanBinding
+import com.carefree.and.joyous.ui.FileSizeUtils
 import java.io.File
 
 class FileAdapter(
@@ -75,11 +76,8 @@ class FileAdapter(
         }
 
         private fun formatFileSize(size: Long): String {
-            return when {
-                size >= 1024 * 1024 * 1024 -> String.format("%.1f GB", size / (1024.0 * 1024.0 * 1024.0))
-                size >= 1024 * 1024 -> String.format("%.1f MB", size / (1024.0 * 1024.0))
-                else -> String.format("%.1f KB", size / 1024.0)
-            }
+            val (sizeValue, sizeUnit) = FileSizeUtils.formatFileSize(size)
+            return "$sizeValue$sizeUnit"
         }
 
 

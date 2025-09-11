@@ -60,7 +60,6 @@ class MainActivity : ComponentActivity() {
                 },
                 onPermissionCancel = {
                     showPermissionDialog.value = false
-                    handlePermissionDenied()
                 },
                 onPermissionConfirm = {
                     showPermissionDialog.value = false

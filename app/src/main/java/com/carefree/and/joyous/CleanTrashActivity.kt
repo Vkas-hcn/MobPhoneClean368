@@ -1,13 +1,7 @@
 package com.carefree.and.joyous
 
 
-import android.Manifest
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
@@ -20,9 +14,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.carefree.and.joyous.databinding.ActivityCleanTrashBinding
+import com.carefree.and.joyous.ui.FileSizeUtils
 import java.io.File
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class CleanTrashActivity : AppCompatActivity() {
@@ -292,23 +285,9 @@ class CleanTrashActivity : AppCompatActivity() {
     }
 
     private fun updateTrashSize(size: Long) {
-        val (displaySize, unit) = formatFileSize(size)
-        binding.tvScannedSize.text = displaySize
-        binding.tvScannedSizeUn.text = unit
-    }
-
-    private fun formatFileSize(size: Long): Pair<String, String> {
-        return when {
-            size >= 1024 * 1024 * 1024 -> {
-                Pair(String.format("%.1f", size / (1024.0 * 1024.0 * 1024.0)), "GB")
-            }
-            size >= 1024 * 1024 -> {
-                Pair(String.format("%.1f", size / (1024.0 * 1024.0)), "MB")
-            }
-            else -> {
-                Pair(String.format("%.1f", size / 1024.0), "KB")
-            }
-        }
+        val result = FileSizeUtils.formatFileSizeWithUnit(size)
+        binding.tvScannedSize.text = result.first
+        binding.tvScannedSizeUn.text = result.second
     }
 
     private fun finishScanning() {
@@ -373,7 +352,7 @@ class CleanTrashActivity : AppCompatActivity() {
             }
 
             handler.post {
-                val intent = Intent(this, CleanCompleteActivity::class.java).apply {
+                val intent = Intent(this, CleanCompleteComposeActivity::class.java).apply {
                     putExtra("deleted_size", deletedSize)
                 }
                 startActivity(intent)

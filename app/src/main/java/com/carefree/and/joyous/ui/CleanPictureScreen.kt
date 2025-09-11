@@ -1,21 +1,16 @@
 package com.carefree.and.joyous.ui
 
-import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.widget.ImageView
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -32,18 +27,78 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.carefree.and.joyous.CleanCompleteActivity
+import com.carefree.and.joyous.CleanCompleteComposeActivity
 import com.carefree.and.joyous.R
+import com.carefree.and.joyous.ui.FileSizeUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+object FileSizeUtils {
+    fun formatFileSize(sizeBytes: Long): Pair<String, String> {
+        val size = sizeBytes.toDouble()
+        return when {
+            size >= 1000 * 1000 * 1000 -> {
+                Pair(String.format("%.1f", size / (1000.0 * 1000.0 * 1000.0)), "GB")
+            }
+            size >= 1000 * 1000 -> {
+                Pair(String.format("%.1f", size / (1000.0 * 1000.0)), "MB")
+            }
+            size >= 1000 -> {
+                Pair(String.format("%.1f", size / 1000.0), "KB")
+            }
+            else -> {
+                Pair(sizeBytes.toString(), "B")
+            }
+        }
+    }
 
-// 数据类定义
+    fun formatStorageSize(bytes: Long): Pair<String, String> {
+        val size = bytes.toDouble()
+        return when {
+            bytes >= 1_000_000_000L -> {
+                val gb = size / 1_000_000_000.0
+                val formatted = if (gb >= 10.0) "%.0f" else "%.1f"
+                Pair(formatted.format(gb), "GB")
+            }
+            bytes >= 1_000_000L -> {
+                val mb = size / 1_000_000.0
+                Pair("%.0f".format(mb), "MB")
+            }
+            bytes >= 1_000L -> {
+                val kb = size / 1_000.0
+                Pair("%.0f".format(kb), "KB")
+            }
+            else -> {
+                Pair(bytes.toString(), "B")
+            }
+        }
+    }
+
+    fun formatFileSizeWithUnit(sizeBytes: Long): Pair<String, String> {
+        val size = sizeBytes.toDouble()
+        return when {
+            size >= 1000 * 1000 * 1000 -> {
+                Pair(String.format("%.1f", size / (1000.0 * 1000.0 * 1000.0)), "GB")
+            }
+            size >= 1000 * 1000 -> {
+                Pair(String.format("%.1f", size / (1000.0 * 1000.0)), "MB")
+            }
+            size >= 1000 -> {
+                Pair(String.format("%.1f", size / 1000.0), "KB")
+            }
+            else -> {
+                Pair(sizeBytes.toString(), "B")
+            }
+        }
+    }
+}
+
+
+
 data class PictureGroup(
     var date: String,
     var pictures: MutableList<PictureItem>,
@@ -73,28 +128,7 @@ fun CleanPictureScreen(
     var isAllSelected by remember { mutableStateOf(false) }
     var showDeleteButton by remember { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
-    var showPermissionDialog by remember { mutableStateOf(false) }
 
-    // 权限请求启动器
-    val permissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission(),
-        onResult = { isGranted ->
-            if (isGranted) {
-                coroutineScope.launch {
-                    val groups = withContext(Dispatchers.IO) {
-                        scanForPictures(context)
-                    }
-                    pictureGroups = groups
-                    isScanning = false
-                    showDeleteButton = groups.isNotEmpty()
-                }
-            } else {
-                showPermissionDialog = true
-            }
-        }
-    )
-
-    // 更新选中信息
     LaunchedEffect(pictureGroups) {
         updateSelectedInfo(
             pictureGroups,
@@ -234,11 +268,11 @@ fun CleanPictureScreen(
                                 totalSelectedSize = 0
                                 showDeleteButton = updatedGroups.isNotEmpty()
 
-                                val intent = Intent(context, CleanCompleteActivity::class.java).apply {
+                                val intent = Intent(context, CleanCompleteComposeActivity::class.java).apply {
                                     putExtra("deleted_size", deletedSize)
                                 }
                                 context.startActivity(intent)
-                                val activity = context as? android.app.Activity
+                                val activity = context as? Activity
                                 activity?.finish()
                             }
                         )
@@ -252,20 +286,17 @@ fun CleanPictureScreen(
         }
     }
 
-    // 初始化时请求权限并开始扫描
+    // 初始化时开始扫描
     LaunchedEffect(Unit) {
         isScanning = true
-        permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
-    }
-
-    if (showPermissionDialog) {
-        PermissionDialog(
-            onDismiss = { showPermissionDialog = false },
-            onConfirm = {
-                showPermissionDialog = false
-                permissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+        coroutineScope.launch {
+            val groups = withContext(Dispatchers.IO) {
+                scanForPictures(context)
             }
-        )
+            pictureGroups = groups
+            isScanning = false
+            showDeleteButton = groups.isNotEmpty()
+        }
     }
 }
 
@@ -274,7 +305,6 @@ fun ScanningDetailsCard(
     totalSelectedSize: Long,
     modifier: Modifier = Modifier
 ) {
-    val (displaySize, unit) = formatFileSize(totalSelectedSize)
 
     Box(
         modifier = modifier
@@ -287,6 +317,7 @@ fun ScanningDetailsCard(
             contentDescription = null,
             contentScale = ContentScale.Crop, // 或者使用其他合适的缩放模式
             modifier = Modifier
+                .padding(horizontal = 20.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(8.dp))
         )
@@ -299,14 +330,15 @@ fun ScanningDetailsCard(
             Row(
                 verticalAlignment = Alignment.Bottom
             ) {
+                val (sizeValue, sizeUnit) = FileSizeUtils.formatFileSize(totalSelectedSize)
                 Text(
-                    text = displaySize,
+                    text = sizeValue,
                     color = Color.White,
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = unit,
+                    text = sizeUnit,
                     color = Color.White,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
@@ -335,7 +367,7 @@ fun PictureGroupItem(
         modifier = modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(8.dp))
-            .background(Color.White)
+            .background(Color.Transparent)
             .padding(16.dp)
     ) {
         // 组标题行
@@ -345,7 +377,7 @@ fun PictureGroupItem(
         ) {
             Text(
                 text = group.date,
-                color = Color(0xFF151611),
+                color = Color(0xFF999999),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.weight(1f)
@@ -353,7 +385,7 @@ fun PictureGroupItem(
 
             IconButton(
                 onClick = { onGroupSelectionChanged(!group.isSelected) },
-                modifier = Modifier.size(24.dp)
+                modifier = Modifier.size(20.dp)
             ) {
                 Image(
                     painter = painterResource(
@@ -413,16 +445,12 @@ fun PictureItem(
             .clickable {
                 onSelectionChanged(!picture.isSelected)
             }
-            .border(
-                width = 1.dp,
-                color = if (picture.isSelected) Color(0xFF3CBBFC) else Color(0xFFE0E0E0),
-                shape = RoundedCornerShape(4.dp)
-            )
+
     ) {
         AndroidView(
             factory = { ctx ->
-                android.widget.ImageView(ctx).apply {
-                    scaleType = android.widget.ImageView.ScaleType.CENTER_CROP
+                ImageView(ctx).apply {
+                    scaleType = ImageView.ScaleType.CENTER_CROP
                     isClickable = false
                     isFocusable = false
                 }
@@ -459,7 +487,7 @@ fun PictureItem(
         )
 
         // 文件大小
-        val (sizeValue, sizeUnit) = formatStorageSize(picture.size)
+        val (sizeValue, sizeUnit) = FileSizeUtils.formatStorageSize(picture.size)
         Text(
             text = "$sizeValue $sizeUnit",
             color = Color.White,
@@ -533,30 +561,9 @@ fun BottomActionBar(
         }
     }
 }
-@Composable
-fun PermissionDialog(
-    onDismiss: () -> Unit,
-    onConfirm: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { Text("Permission Required") },
-        text = { Text("Please grant storage permission to scan pictures.") },
-        confirmButton = {
-            TextButton(onClick = onConfirm) {
-                Text("Grant Permission")
-            }
-        },
-        dismissButton = {
-            TextButton(onClick = onDismiss) {
-                Text("Cancel")
-            }
-        }
-    )
-}
 
 
-fun scanForPictures(context: android.content.Context): List<PictureGroup> {
+fun scanForPictures(context: Context): List<PictureGroup> {
     val pictureMap = mutableMapOf<String, MutableList<PictureItem>>()
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
 
@@ -661,49 +668,9 @@ fun updateSelectedInfo(
     onAllSelectedUpdated(allSelected)
 }
 
-fun formatFileSize(size: Long): Pair<String, String> {
-    return when {
-        size >= 1000 * 1000 * 1000 -> {
-            Pair(String.format("%.1f", size / (1000.0 * 1000.0 * 1000.0)), "GB")
-        }
-        size >= 1000 * 1000 -> {
-            Pair(String.format("%.1f", size / (1000.0 * 1000.0)), "MB")
-        }
-        else -> {
-            Pair(String.format("%.1f", size / 1000.0), "KB")
-        }
-    }
-}
-
-fun formatStorageSize(bytes: Long): Pair<String, String> {
-    return when {
-        bytes >= 1000L * 1000L * 1000L -> {
-            val gb = bytes.toDouble() / (1000L * 1000L * 1000L)
-            val formatted = if (gb >= 10.0) {
-                DecimalFormat("#").format(gb)
-            } else {
-                DecimalFormat("#.#").format(gb)
-            }
-            Pair(formatted, "GB")
-        }
-        bytes >= 1000L * 1000L -> {
-            val mb = bytes.toDouble() / (1000L * 1000L)
-            val formatted = DecimalFormat("#").format(mb)
-            Pair(formatted, "MB")
-        }
-        bytes >= 1000L -> {
-            val kb = bytes.toDouble() / 1000L
-            val formatted = DecimalFormat("#").format(kb)
-            Pair(formatted, "KB")
-        }
-        else -> {
-            Pair("$bytes", "B")
-        }
-    }
-}
 
 fun deleteSelectedPictures(
-    context: android.content.Context,
+    context: Context,
     pictureGroups: List<PictureGroup>,
     coroutineScope: CoroutineScope,
     onDeleteCompleted: (Long, List<PictureGroup>) -> Unit

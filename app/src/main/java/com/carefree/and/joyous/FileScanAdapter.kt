@@ -1,6 +1,8 @@
 package com.carefree.and.joyous
 
 import com.carefree.and.joyous.databinding.ItemFileBinding
+import com.carefree.and.joyous.ui.FileSizeUtils
+
 
 
 class FileScanAdapter(
@@ -23,7 +25,8 @@ class FileScanAdapter(
 
         with(holder.binding) {
             tvFileName.text = file.name
-            tvFileSize.text = formatFileSize(file.size)
+            val (size, unit) = FileSizeUtils.formatFileSize(file.size)
+            tvFileSize.text = "$size$unit"
 
             imgFileSelect.setImageResource(
                 if (file.isSelected) R.drawable.chooe else R.drawable.dischooe
@@ -45,12 +48,5 @@ class FileScanAdapter(
         file.isSelected = !file.isSelected
         notifyItemChanged(position)
         onSelectionChanged()
-    }
-
-    private fun formatFileSize(size: Long): String {
-        return when {
-            size >= 1024 * 1024 -> String.format("%.2fMB", size / (1024.0 * 1024.0))
-            else -> String.format("%.2fKB", size / 1024.0)
-        }
     }
 }

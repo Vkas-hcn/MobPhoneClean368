@@ -15,14 +15,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.carefree.and.joyous.databinding.ActivityCleanFileBinding
+import com.carefree.and.joyous.utils.FileSizeUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 class CleanFileActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCleanFileBinding
@@ -373,7 +371,7 @@ class CleanFileActivity : AppCompatActivity() {
             }
 
             withContext(Dispatchers.Main) {
-                val intent = Intent(this@CleanFileActivity, CleanCompleteActivity::class.java).apply {
+                val intent = Intent(this@CleanFileActivity, CleanCompleteComposeActivity::class.java).apply {
                     putExtra("deleted_count", deletedCount)
                     putExtra("deleted_size", totalDeletedSize)
                 }
@@ -393,11 +391,7 @@ class CleanFileActivity : AppCompatActivity() {
     }
 
     private fun formatFileSize(size: Long): String {
-        return when {
-            size >= 1024 * 1024 * 1024 -> String.format("%.1f GB", size / (1024.0 * 1024.0 * 1024.0))
-            size >= 1024 * 1024 -> String.format("%.1f MB", size / (1024.0 * 1024.0))
-            else -> String.format("%.1f KB", size / 1024.0)
-        }
+        return FileSizeUtils.formatFileSize(size)
     }
 }
 

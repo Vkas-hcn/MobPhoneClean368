@@ -282,7 +282,7 @@ fun PermissionDialog(
     ) {
         Box(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .clickable { /* 防止点击穿透 */ },
             contentAlignment = Alignment.Center
         ) {
