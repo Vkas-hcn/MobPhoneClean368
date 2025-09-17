@@ -25,24 +25,24 @@ class CategoryAdapter(
         val category = categories[position]
 
         with(holder.binding) {
-            ivIcon.setImageResource(category.iconRes)
-            tvTitle.text = category.name
-            val (size, unit) = FileSizeUtils.formatFileSize(category.totalSize)
+            ivIcon.setImageResource(category.getIconRes())
+            tvTitle.text = category.getName()
+            val (size, unit) = FileSizeUtils.formatFileSize(category.getTotalSize())
             tvSize.text = "$size$unit"
 
             imgInstruct.setImageResource(
-                if (category.isExpanded) R.drawable.ic_disex else R.drawable.ic_ex
+                if (category.isExpanded()) R.drawable.ic_disex else R.drawable.ic_ex
             )
 
             updateCategorySelection(category)
 
             imgSelect.setImageResource(
-                if (category.isSelected) R.drawable.chooe else R.drawable.dischooe
+                if (category.isSelected()) R.drawable.chooe else R.drawable.dischooe
             )
 
-            if (category.isExpanded) {
+            if (category.isExpanded()) {
                 rvItemFile.visibility = android.view.View.VISIBLE
-                val fileAdapter = FileScanAdapter(category.files) {
+                val fileAdapter = FileScanAdapter(category.getFiles()) {
                     updateCategorySelection(category)
                     notifyItemChanged(position)
                     onSelectionChanged()
@@ -56,13 +56,13 @@ class CategoryAdapter(
             }
 
             llCategory.setOnClickListener {
-                category.isExpanded = !category.isExpanded
+                category.setExpanded(!category.isExpanded())
                 notifyItemChanged(position)
             }
 
             imgSelect.setOnClickListener {
-                category.isSelected = !category.isSelected
-                category.files.forEach { it.isSelected = category.isSelected }
+                category.setSelected(!category.isSelected())
+                category.getFiles().forEach { it.setSelected(category.isSelected()) }
                 notifyItemChanged(position)
                 onSelectionChanged()
             }
@@ -72,7 +72,7 @@ class CategoryAdapter(
     override fun getItemCount() = categories.size
 
     private fun updateCategorySelection(category: TrashCategory) {
-        category.isSelected = category.files.isNotEmpty() && category.files.all { it.isSelected }
+        category.setSelected(category.getFiles().isNotEmpty() && category.getFiles().all { it.isSelected() })
     }
 
 }

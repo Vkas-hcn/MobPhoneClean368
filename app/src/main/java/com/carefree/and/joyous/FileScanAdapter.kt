@@ -24,12 +24,12 @@ class FileScanAdapter(
         val file = files[position]
 
         with(holder.binding) {
-            tvFileName.text = file.name
-            val (size, unit) = FileSizeUtils.formatFileSize(file.size)
+            tvFileName.text = file.getName()
+            val (size, unit) = FileSizeUtils.formatFileSize(file.getSize())
             tvFileSize.text = "$size$unit"
 
             imgFileSelect.setImageResource(
-                if (file.isSelected) R.drawable.chooe else R.drawable.dischooe
+                if (file.isSelected()) R.drawable.chooe else R.drawable.dischooe
             )
 
             root.setOnClickListener {
@@ -45,7 +45,7 @@ class FileScanAdapter(
     override fun getItemCount() = files.size
 
     private fun toggleFileSelection(file: TrashFile, position: Int) {
-        file.isSelected = !file.isSelected
+        file.setSelected(!file.isSelected())
         notifyItemChanged(position)
         onSelectionChanged()
     }
