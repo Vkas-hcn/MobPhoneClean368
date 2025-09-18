@@ -28,7 +28,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.zIndex
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import com.carefree.and.joyous.MainActivity
+import com.carefree.and.joyous.ZingMob
 import com.carefree.and.joyous.R
 
 @SuppressLint("ContextCastToActivity")
@@ -42,7 +42,7 @@ fun MainScreen(
     onPermissionCancel: () -> Unit = {},
     onPermissionConfirm: () -> Unit = {}
 ) {
-    val context = LocalContext.current as MainActivity
+    val context = LocalContext.current as ZingMob
     var storageInfo by remember { mutableStateOf(context.getStorageInfo()) }
 
     // 在组合函数中更新存储信息
@@ -218,7 +218,7 @@ fun MainScreen(
         }
     }
 
-    // 权限对话框 - 从 MainActivity 控制显示
+    // 权限对话框 - 从 ZingMob 控制显示
     if (showPermissionDialog) {
         PermissionDialog(
             onDismiss = onPermissionDialogDismiss,

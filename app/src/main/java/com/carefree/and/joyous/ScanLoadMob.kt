@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,15 +14,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import kotlinx.coroutines.delay
 
-class ScanLoadActivity : ComponentActivity() {
+class ScanLoadMob : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +30,10 @@ class ScanLoadActivity : ComponentActivity() {
             ScanLoadScreen(
                 onBackClick = { finish() },
                 onScanComplete = {
-                    when (MainActivity.jumpType) {
-                        0 -> startActivity(Intent(this, CleanPictureComposeActivity::class.java))
-                        1 -> startActivity(Intent(this, CleanFileActivity::class.java))
-                        else -> startActivity(Intent(this, CleanTrashActivity::class.java))
+                    when (ZingMob.jumpType) {
+                        0 -> startActivity(Intent(this, CleanPictureCompose::class.java))
+                        1 -> startActivity(Intent(this, CleanFileMob::class.java))
+                        else -> startActivity(Intent(this, CleanTrashMob::class.java))
                     }
                     finish()
                 }
@@ -54,7 +51,7 @@ fun ScanLoadScreen(
     var progress by remember { mutableStateOf(0f) }
     
     // 根据jumpType确定要显示的logo资源
-    val logoResource = when (MainActivity.jumpType) {
+    val logoResource = when (ZingMob.jumpType) {
         0 -> R.drawable.logo_img     // 图片清理页面
         1 -> R.drawable.logo_file    // 清理文件页面
         else -> R.drawable.logo_clean // 清理垃圾页面

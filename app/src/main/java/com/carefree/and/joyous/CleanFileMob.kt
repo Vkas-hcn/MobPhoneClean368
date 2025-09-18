@@ -14,7 +14,7 @@ import androidx.activity.addCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.carefree.and.joyous.databinding.ActivityCleanFileBinding
+import com.carefree.and.joyous.databinding.CleanFileBinding
 import com.carefree.and.joyous.utils.FileSizeUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -22,8 +22,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class CleanFileActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCleanFileBinding
+class CleanFileMob : AppCompatActivity() {
+    private lateinit var binding: CleanFileBinding
     private lateinit var fileAdapter: FileAdapter
     private val allFiles = mutableListOf<FileItem>()
     private val filteredFiles = mutableListOf<FileItem>()
@@ -45,7 +45,7 @@ class CleanFileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityCleanFileBinding.inflate(layoutInflater)
+        binding = CleanFileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         onBackPressedDispatcher.addCallback {
@@ -70,7 +70,7 @@ class CleanFileActivity : AppCompatActivity() {
             updateDeleteButton()
         }
         binding.rvFiles.apply {
-            layoutManager = LinearLayoutManager(this@CleanFileActivity)
+            layoutManager = LinearLayoutManager(this@CleanFileMob)
             adapter = fileAdapter
         }
 
@@ -371,7 +371,7 @@ class CleanFileActivity : AppCompatActivity() {
             }
 
             withContext(Dispatchers.Main) {
-                val intent = Intent(this@CleanFileActivity, CleanCompleteComposeActivity::class.java).apply {
+                val intent = Intent(this@CleanFileMob, CleanCompleteCompose::class.java).apply {
                     putExtra("deleted_count", deletedCount)
                     putExtra("deleted_size", totalDeletedSize)
                 }

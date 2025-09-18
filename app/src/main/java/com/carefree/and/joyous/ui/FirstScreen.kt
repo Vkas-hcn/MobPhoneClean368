@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.carefree.and.joyous.MainActivity
+import com.carefree.and.joyous.ZingMob
 import com.carefree.and.joyous.R
 
 @Composable
@@ -38,7 +38,7 @@ fun FirstScreen() {
     LaunchedEffect(Unit) {
         progress = 100
         kotlinx.coroutines.delay(2100)
-        context.startActivity(Intent(context, MainActivity::class.java))
+        context.startActivity(Intent(context, ZingMob::class.java))
         (context as? androidx.activity.ComponentActivity)?.finish()
     }
 

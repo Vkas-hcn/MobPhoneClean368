@@ -1,19 +1,20 @@
 package com.carefree.and.joyous
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import com.carefree.and.joyous.ui.FirstScreen
+import androidx.core.view.WindowCompat
+import com.carefree.and.joyous.ui.NetScreen
 
-class FirstActivity : ComponentActivity() {
-
+class ProPerMob : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            FirstScreen()
+            NetScreen(
+                onBackClick = { finish() }
+            )
         }
     }
+
 }

@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
-import com.carefree.and.joyous.CleanCompleteComposeActivity
+import com.carefree.and.joyous.CleanCompleteCompose
 import com.carefree.and.joyous.R
 import com.carefree.and.joyous.ui.FileSizeUtils
 import kotlinx.coroutines.CoroutineScope
@@ -268,7 +268,7 @@ fun CleanPictureScreen(
                                 totalSelectedSize = 0
                                 showDeleteButton = updatedGroups.isNotEmpty()
 
-                                val intent = Intent(context, CleanCompleteComposeActivity::class.java).apply {
+                                val intent = Intent(context, CleanCompleteCompose::class.java).apply {
                                     putExtra("deleted_size", deletedSize)
                                 }
                                 context.startActivity(intent)

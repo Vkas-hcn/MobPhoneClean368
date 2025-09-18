@@ -19,7 +19,7 @@
         android:theme="@style/Theme.MobPhoneClean368"
         tools:targetApi="31">
         <activity
-            android:name=".FirstActivity"
+            android:name=".FirstMob"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"
             android:exported="true"
@@ -32,26 +32,26 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CleanPictureComposeActivity"
+            android:name=".CleanPictureCompose"
             android:exported="false"
             android:theme="@style/Theme.MobPhoneClean368" />
         <activity
-            android:name=".CleanCompleteComposeActivity"
+            android:name=".CleanCompleteCompose"
             android:exported="false" />
         <activity
-            android:name=".CleanFileActivity"
+            android:name=".CleanFileMob"
             android:exported="false" />
         <activity
-            android:name=".CleanTrashActivity"
+            android:name=".CleanTrashMob"
             android:exported="false" />
         <activity
-            android:name=".ScanLoadActivity"
+            android:name=".ScanLoadMob"
             android:exported="false" />
         <activity
-            android:name=".NetActivity"
+            android:name=".ProPerMob"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ZingMob"
             android:exported="false" />
     </application>
 

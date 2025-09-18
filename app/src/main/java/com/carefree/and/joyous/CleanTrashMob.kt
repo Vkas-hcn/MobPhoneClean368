@@ -17,19 +17,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.carefree.and.joyous.databinding.ActivityCleanTrashBinding
+import com.carefree.and.joyous.databinding.CleanTrashBinding
 import com.carefree.and.joyous.ui.FileSizeUtils
 import java.io.File
 
 
-class CleanTrashActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityCleanTrashBinding
+class CleanTrashMob : AppCompatActivity() {
+    private lateinit var binding: CleanTrashBinding
     private lateinit var categoryAdapter: CategoryAdapter
     private val trashCategories = mutableListOf<TrashCategory>()
     private var totalTrashSize = 0L
     private var isScanning = false
     private val handler = Handler(Looper.getMainLooper())
-    private val TAG = "CleanTrashActivity"
+    private val TAG = "CleanTrashMob"
 
     // 权限请求Launcher
     private val requestPermissionLauncher = registerForActivityResult(
@@ -49,7 +49,7 @@ class CleanTrashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        binding = ActivityCleanTrashBinding.inflate(layoutInflater)
+        binding = CleanTrashBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.scan)) { v, insets ->
@@ -92,7 +92,7 @@ class CleanTrashActivity : AppCompatActivity() {
             updateCleanButtonState()
         }
         binding.rvCategories.apply {
-            layoutManager = LinearLayoutManager(this@CleanTrashActivity)
+            layoutManager = LinearLayoutManager(this@CleanTrashMob)
             adapter = categoryAdapter
         }
 
@@ -460,7 +460,7 @@ class CleanTrashActivity : AppCompatActivity() {
             }
 
             handler.post {
-                val intent = Intent(this, CleanCompleteComposeActivity::class.java).apply {
+                val intent = Intent(this, CleanCompleteCompose::class.java).apply {
                     putExtra("deleted_size", deletedSize)
                 }
                 startActivity(intent)

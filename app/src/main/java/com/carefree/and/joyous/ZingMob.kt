@@ -24,7 +24,7 @@ import com.carefree.and.joyous.ui.MainScreen
 import java.text.DecimalFormat
 import kotlin.math.max
 
-class MainActivity : ComponentActivity() {
+class ZingMob : ComponentActivity() {
 
     companion object {
         private const val STORAGE_PERMISSION_CODE = 10000
@@ -51,7 +51,7 @@ class MainActivity : ComponentActivity() {
                     checkPermissionsAndScan()
                 },
                 onSettingsClick = {
-                    startActivity(Intent(this, NetActivity::class.java))
+                    startActivity(Intent(this, ProPerMob::class.java))
                 },
                 // 传递权限对话框状态
                 showPermissionDialog = showPermissionDialog.value,
@@ -163,7 +163,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun startScanActivity() {
-        startActivity(Intent(this, ScanLoadActivity::class.java))
+        startActivity(Intent(this, ScanLoadMob::class.java))
     }
 
     private fun getPermissionDeniedCount(): Int {

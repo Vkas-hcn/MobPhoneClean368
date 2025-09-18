@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import com.carefree.and.joyous.utils.FileSizeUtils
 import kotlinx.coroutines.delay
 
-class CleanCompleteComposeActivity : ComponentActivity() {
+class CleanCompleteCompose : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -67,17 +67,17 @@ fun CleanCompleteScreen(
             deletedSize = deletedSize,
             onBackClick = onBackClick,
             onPictureCleanClick = {
-                MainActivity.jumpType = 0
-                context.startActivity(Intent(context, ScanLoadActivity::class.java))
+                ZingMob.jumpType = 0
+                context.startActivity(Intent(context, ScanLoadMob::class.java))
                 (context as? ComponentActivity)?.finish()
             },
             onFileCleanClick = {
-                MainActivity.jumpType = 1
-                context.startActivity(Intent(context, ScanLoadActivity::class.java))
+                ZingMob.jumpType = 1
+                context.startActivity(Intent(context, ScanLoadMob::class.java))
                 (context as? ComponentActivity)?.finish()
             },
             onTrashCleanClick = {
-                context.startActivity(Intent(context, CleanTrashActivity::class.java))
+                context.startActivity(Intent(context, CleanTrashMob::class.java))
                 (context as? ComponentActivity)?.finish()
             }
         )
@@ -351,7 +351,7 @@ fun CleaningAnimationOverlay(
 // 获取Logo资源
 @Composable
 fun getLogoResource(): Int {
-    return when (MainActivity.jumpType) {
+    return when (ZingMob.jumpType) {
         0 -> R.drawable.logo_img     // 图片清理页面
         1 -> R.drawable.logo_file    // 清理文件页面
         else -> R.drawable.logo_clean // 清理垃圾页面

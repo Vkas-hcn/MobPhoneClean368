@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import com.carefree.and.joyous.ui.theme.MobPhoneClean368Theme
 import com.carefree.and.joyous.ui.CleanPictureScreen
 
-class CleanPictureComposeActivity : ComponentActivity() {
+class CleanPictureCompose : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
